@@ -11,12 +11,15 @@ Een inleiding
     * [Inloggen](#inloggen)
     * [Rest endpoint benaderen met access-token](#rest-endpoint-benaderen-met-access-token)
  * [Beveiligingslek](#beveiligingslek) 
+ * [Uitleg code](#uitleg-code)
+    * [De payload-package](#de-payload-package-dto)
+    
 ## Voorbereiding
  * Pas de databaseinstellingen aan in `src/main/resources/application.properties`
     * Tip: Maak een nieuwe database aan voor deze code.
  * Start de applicatie: `mvnw spring-boot:run`
  * Voor de volgende SQL-query uit:
-    ```sql
+    ```postgresql
        INSERT INTO role(id, name) VALUES(1, 'ROLE_USER');
        INSERT INTO role(id, name) VALUES(2, 'ROLE_MODERATOR');
        INSERT INTO role(id, name) VALUES(3, 'ROLE_ADMIN');
@@ -175,4 +178,80 @@ De volgende resultaten worden teruggegevn door de server, wanneer het succesvol 
 In deze applicatie zit een beveiliginslek. Een stuk code dat nooit ijn productie zou mogen draaien. Kun je op basis van 
 de hierboven uitgelegde rest endpoints bepalen wat er mis is (en wat je dus zelf niet moet doen in jouw eindopdracht)?
 
+## Uitleg code
+Dit hoofdstuk legt verschillende stukken code uit.
 
+### De payload-package (DTO)
+Dit voorbeeld maakt gebruik van DTO's. DTO's zijn Data Transfer Objects. Data Transfer Objects zijn objecten tussen
+gebruikt worden om te communiceren tussen verschillende lagen. Deze zijn onderverdeeld in een request en een response
+package.
+
+#### Request package
+Hier vind je `SignupRequest.java` en `LoginRequest.java`. De eerste klasse is het object dat binnenkomt om een gebruiker
+te registreren. Het tweede object is het object dat binnenkomt om de login af te handelen. Tot nu toe hebben jullie 
+geleerd om in de Controller-klasse objecten binnen te krijgen die 1 op 1 overeenkomen met je Entity-objecten. Dat is 
+hier dus niet het geval. De controller klasse krijgt hier DTO-objecten binnen.
+
+Je ziet in de `SignUpRequest.java` nieuwe annotaties terugkomen.
+ * `@NotBlank`
+ * `@Size`
+ * `@Email`
+ 
+Deze annotaties checken de geldigheid van de attributen van het object. Je hebt hiermee dus regel opgesteld waaraan het 
+DTO-object moet voldoen. Deze regels heb je opgesteld, maar die moet je ook nog afdwingen. Dat doen we in de controller.
+
+Dit afdwingen gebeurt in de controller. Daar is ook een nieuwe annotatie verschenen: `@Valid`. Hiermee zeg je tegen
+Spring: Deze rest endpoint krijgt de volgens DTO klasse binnen, deze DTO klasse heeft bepaalde regels. Controleer deze
+en geef feedback wanneer deze regels niet gevolgd worden. Kijk zelf eens wat er gebeurd wanneer je bijvoorbeeld een
+wachtwoord met vier tekens naar `http://localhost:8080/api/auth/signup` stuurt.
+
+Dit werkt natuurlijk allemaal niet vanzelf. Om deze code te laten werken, hebben we een extra library nodig. Deze heet
+`spring-boot-starter-validation`. Het onderstaande is dan ook aan de `pom.xml` toegevoegd.
+
+```xml
+<!-- Deze library gebruiken we om met Annotaties onze DTO's te controleren -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
+```
+
+Meer lezen over de validatie kan hier: https://www.baeldung.com/spring-boot-bean-validation. Hier zie je dat je niet 
+op DTO niveau hoeft te doen. Het kan ook op domeinklasse niveau.
+
+De keuze is aan jou. Ga je DTO's gebruiken of niet. Je kunt op deze manier wel per HTTP Request zeer gedetailleerde 
+regels opstellen die je vervolgens ook kunt controleren, maar daardoor krijg je wel veel code die op elkaar lijkt en
+je moet extra code opstellen om het DTO-object om te zetten naar een Domeinklasse-object. Voor `SignupRequest.java`
+gebeurt dat op dit moment (incorrect) in de `Authcontroller.java` - klasse. Zie code hieronder.
+
+```java
+// Create new user's account
+User user = new User(signUpRequest.getUsername(),
+    signUpRequest.getEmail(),
+    encoder.encode(signUpRequest.getPassword()));
+
+Set<String> strRoles = signUpRequest.getRole();
+Set<Role> roles = new HashSet<>();
+
+```
+
+#### Response Package
+In de response package staan, - en de naam verraadt het al een beetje- de antwoorden die de controller-laag terugstuurt.
+In dit geval alle antwoorden die niet van het datatype `String` zijn. Dit voorbeeld bevat twee klassen. 
+`MessageResponse.java` en `JwtResponse.java`. 
+
+MessageResponse is een klasse die één attribuut bevat. Dit attribuut heeft het datatype String. Deze klasse wordt dan
+ook gebruikt om of een error bericht, of een succesbericht terug te communiceren.
+
+De `JwtResponse` klasse doet iets meer. Deze klasse bevat de attributen van de User-klasse die de ontwikkelaar nodig 
+acht om terug te communiceren en de `accesstoken`. De access-token is een Json Web Token. Deze klasse wordt alleen terug
+gecommuniceerd wanneer er een geslaagde inlogpoging is geweest. 
+
+Het is daarna aan de frontend om de inlog-token te bewaren en deze mee te sturen bij elk request. Je kunt zelf voor 
+de Json webtoken hier gedeeltelijk ontcijferen: https://jwt.io/. Kijk eens wat erin staat.
+
+#### Eindopdracht
+Wat je wilt gebruiken voor je eindopdracht is hier je eigen keuze. Ik zou wel de JwtResponse klasse houden en gebruiken.
+Het gebruik van DTO's mag je zelf bepalen (en verantwoorden). Nog eens de gegevens links van dit hoofdstuk:
+ * https://www.baeldung.com/spring-boot-bean-validation
+ * https://jwt.io/
