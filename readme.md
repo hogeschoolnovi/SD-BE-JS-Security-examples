@@ -20,9 +20,9 @@ Een inleiding
  * Start de applicatie: `mvnw spring-boot:run`
  * Voor de volgende SQL-query uit:
     ```postgresql
-       INSERT INTO role(id, name) VALUES(1, 'ROLE_USER');
-       INSERT INTO role(id, name) VALUES(2, 'ROLE_MODERATOR');
-       INSERT INTO role(id, name) VALUES(3, 'ROLE_ADMIN');
+    INSERT INTO role(name) VALUES('ROLE_USER');
+    INSERT INTO role(name) VALUES('ROLE_MODERATOR');
+    INSERT INTO role(name) VALUES('ROLE_ADMIN');
     ```
 De applicatie is nu klaar voor gebruik.
 
