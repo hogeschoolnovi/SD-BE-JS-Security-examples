@@ -136,7 +136,7 @@ De backend-server communiceert het volgende (soortgelijks) terug:
 ```
 
 Wil je als ingelogde gebruiker nu tegen de beveiligde rest-points aanpraten dan moet je altijd `tokenType` en
-`accesstoken` meesturen. Zie volgend kopje
+`accesstoken` meesturen. Zie volgend kopje.
 
 ### Rest endpoint benaderen met access-token
 Op het moment dat bovenstaande is gelukt, dan heb je van de server een Bearer + access  token ontvangen. Spring security
@@ -144,12 +144,10 @@ geeft deze uit en controleert op basis van die token wat de gebruiker wel of nie
 praten met één van de drie beveiligde rest endpoints, dan moeten we token type + access token meegeven in postman. Dat
 doen we zo:
 
-TODO PLAATJE
+![Plaatje postman met Authorization](img/auth_postman_example.png)
 
 Onder het kopje headers voeg je als `Key` `Authorization` toe. Daarin zet je `<TOKEN TYPE> <SPATIE> <ACCESSTOKEN>`. 
-Zonder de <>. Voorbeeld:
-  
-TODO PLAATJE TOKEN
+Zonder de <>. Zie plaatje hierboven.
 
 De volgende resultaten worden teruggegevn door de server, wanneer het succesvol is:
 
