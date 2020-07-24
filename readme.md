@@ -176,7 +176,7 @@ De volgende resultaten worden teruggegevn door de server, wanneer het succesvol 
      `Admin Board.`
 
 ## Beveiligingslek
-In deze applicatie zit een beveiliginslek. Een stuk code dat nooit ijn productie zou mogen draaien. Kun je op basis van 
+In deze applicatie zit een beveiligingslek. Een stuk code dat nooit in productie zou mogen draaien. Kun je op basis van 
 de hierboven uitgelegde rest endpoints bepalen wat er mis is (en wat je dus zelf niet moet doen in jouw eindopdracht)?
 
 ## Uitleg code
@@ -199,12 +199,16 @@ Je ziet in de `SignUpRequest.java` nieuwe annotaties terugkomen.
  * `@Email`
  
 Deze annotaties checken de geldigheid van de attributen van het object. Je hebt hiermee dus regels opstellen waaraan het 
-DTO-object moet voldoen. Deze regels heb je opgesteld, maar die moet je ook nog afdwingen. Dat doen we in de controller.
+DTO-object moet voldoen. Deze regels heb je opgesteld, maar die moet je ook nog afdwingen. Dat doen we in de 
+servicelaag.
 
-Dit afdwingen gebeurt in de controller. Daar is ook een nieuwe annotatie verschenen: `@Valid`. Hiermee zeg je tegen
-Spring: Deze rest endpoint krijgt de volgens DTO klasse binnen, deze DTO klasse heeft bepaalde regels. Controleer deze
-en geef feedback wanneer deze regels niet gevolgd worden. Kijk zelf eens wat er gebeurd wanneer je bijvoorbeeld een
-wachtwoord met vier tekens naar `http://localhost:8080/api/auth/signup` stuurt.
+Dit afdwingen gebeurt in de `AuthorizationService`. Daar zijn ook twee nieuwe annotatie verschenen: `@Validator` en
+`@Valid`. Validator wordt gebruikt op klasse-niveau en de Valid-annotatie gebruiken we op parameter-niveau in de 
+methode.
+
+Met deze annotaties zeggen we tegen Spring dat in deze klasse validatie plaatsvindt (@Validator) en dat deze parameters
+gevalideerd moeten worden (@Valid). Kijk zelf eens wat er gebeurd wanneer je bijvoorbeeld een wachtwoord met vier tekens
+naar `http://localhost:8080/api/auth/signup` stuurt.
 
 Dit werkt natuurlijk allemaal niet vanzelf. Om deze code te laten werken, hebben we een extra library nodig. Deze heet
 `spring-boot-starter-validation`. Het onderstaande is dan ook aan de `pom.xml` toegevoegd.
@@ -225,7 +229,7 @@ van hoe het kan.
 De keuze is aan jou. Ga je DTO's gebruiken of niet. Je kunt op deze manier wel per HTTP Request zeer gedetailleerde 
 regels opstellen die je vervolgens ook kunt controleren, maar daardoor krijg je wel veel code die op elkaar lijkt en
 je moet extra code opstellen om het DTO-object om te zetten naar een Domeinklasse-object. Voor `SignupRequest.java`
-gebeurt dat op dit moment (incorrect) in de `Authcontroller.java` - klasse. Zie code hieronder.
+gebeurt dat op dit moment  in de `AuthorizationService` - klasse. Zie code hieronder.
 
 ```java
 // Create new user's account
