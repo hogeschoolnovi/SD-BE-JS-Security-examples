@@ -2,8 +2,15 @@
 Een inleiding
 
 ## Inhoud
-[TODO]
-
+ * [Voorbereiding](#voorbereiding)
+ * [Korte uitleg](#korte-uitleg)
+    * [Gebruikersrollen](#gebruikersrollen)
+    * [Rest endpoints](#rest-endpoints)
+ * [Hoe te gebruiken](#hoe-te-gebruiken)
+    * [Gebruiker aanmaken](#gebruiker-aanmaken)
+    * [Inloggen](#inloggen)
+    * [Rest endpoint benaderen met access-token](#rest-endpoint-benaderen-met-access-token)
+ * [Beveiligingslek](#beveiligingslek) 
 ## Voorbereiding
  * Pas de databaseinstellingen aan in `src/main/resources/application.properties`
     * Tip: Maak een nieuwe database aan voor deze code.
@@ -48,7 +55,7 @@ De back-end is op de volgende end-points te bereiken:
  6. `/api/test/admin`
      * Alleen (ingelogd) gebruikers met de admin-rol kunnen data uit deze API uitlezen.
  
-## Hoe te testen en gebruiken.
+## Hoe te gebruiken.
 Je kunt tegen de hierboven genoemde rest-points communiceren.
 
 ### Gebruiker aanmaken
@@ -164,5 +171,8 @@ De volgende resultaten worden teruggegevn door de server, wanneer het succesvol 
      * Alleen (ingelogd) gebruikers met de admin-rol kunnen data uit deze API uitlezen.
      `Admin Board.`
 
+## Beveiligingslek
+In deze applicatie zit een beveiliginslek. Een stuk code dat nooit ijn productie zou mogen draaien. Kun je op basis van 
+de hierboven uitgelegde rest endpoints bepalen wat er mis is (en wat je dus zelf niet moet doen in jouw eindopdracht)?
 
 
