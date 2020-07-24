@@ -1,8 +1,8 @@
 package nl.novi.stuivenberg.springboot.example.security.payload.request;
 
 public class LoginRequest {
-    private String username;
 
+    private String username;
     private String password;
 
     public String getUsername() {
