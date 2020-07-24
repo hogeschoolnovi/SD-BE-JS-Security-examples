@@ -13,6 +13,7 @@ Een inleiding
  * [Beveiligingslek](#beveiligingslek) 
  * [Uitleg code](#uitleg-code)
     * [De payload-package](#de-payload-package-dto)
+    * [Repository package](#repository-package)
     
 ## Voorbereiding
  * Pas de databaseinstellingen aan in `src/main/resources/application.properties`
@@ -257,3 +258,20 @@ Wat je wilt gebruiken voor je eindopdracht is hier je eigen keuze. Ik zou wel de
 Het gebruik van DTO's mag je zelf bepalen (en verantwoorden). Nog eens de gegevens links van dit hoofdstuk:
  * https://www.baeldung.com/spring-boot-bean-validation
  * https://jwt.io/
+ 
+### Repository package
+De repository-package ziet er uit zoals jullie gewend zijn. In dit geval zijn de klasse echter niet leeg. 
+Dit komt, omdat we iets meer moeten dan alleen de standaard operaties. Om dit uit te voeren maken we gebruik van
+keywords, zodat JPA precies weet welke Query uitgevoerd moet worden. Je kunt er hier meer over vinden: 
+https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
+
+#### Voorbeeld uit de code
+In `src/main/java/nl.novi.stuivenberg.springboot.example.repository.RoleRepository` staat de volgende code:
+
+```java
+    Boolean existsByEmail(String email);
+```
+
+We zeggen hier tegen JPA, geef ons een boolean-waarde terug op basis van de gegeven String email. Maar hoe weet JPA wat 
+er verder gedaan moet worden? Dat komt door gebruik van key-woorden in de methode-naam. `existsBy` is zo'n key-woord. 
+`Email` verwijst dan naar de kolomnaam uit de tabel (en de attribuut uit de entity-klasse). 
