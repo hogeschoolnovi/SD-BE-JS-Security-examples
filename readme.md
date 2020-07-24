@@ -182,9 +182,9 @@ de hierboven uitgelegde rest endpoints bepalen wat er mis is (en wat je dus zelf
 Dit hoofdstuk legt verschillende stukken code uit.
 
 ### De payload-package (DTO)
-Dit voorbeeld maakt gebruik van DTO's. DTO's zijn Data Transfer Objects. Data Transfer Objects zijn objecten tussen
-gebruikt worden om te communiceren tussen verschillende lagen. Deze zijn onderverdeeld in een request en een response
-package.
+Dit voorbeeld maakt gebruik van DTO's. DTO's zijn Data Transfer Objects. Data Transfer Objects zijn objecten die
+gebruikt worden om te communiceren tussen verschillende lagen. Deze zijn onderverdeeld in een request (te ontvangen 
+objecten) en een response (antwoord-objecten) package.
 
 #### Request package
 Hier vind je `SignupRequest.java` en `LoginRequest.java`. De eerste klasse is het object dat binnenkomt om een gebruiker
@@ -197,7 +197,7 @@ Je ziet in de `SignUpRequest.java` nieuwe annotaties terugkomen.
  * `@Size`
  * `@Email`
  
-Deze annotaties checken de geldigheid van de attributen van het object. Je hebt hiermee dus regel opgesteld waaraan het 
+Deze annotaties checken de geldigheid van de attributen van het object. Je hebt hiermee dus regels opstellen waaraan het 
 DTO-object moet voldoen. Deze regels heb je opgesteld, maar die moet je ook nog afdwingen. Dat doen we in de controller.
 
 Dit afdwingen gebeurt in de controller. Daar is ook een nieuwe annotatie verschenen: `@Valid`. Hiermee zeg je tegen
