@@ -217,7 +217,9 @@ Dit werkt natuurlijk allemaal niet vanzelf. Om deze code te laten werken, hebben
 ```
 
 Meer lezen over de validatie kan hier: https://www.baeldung.com/spring-boot-bean-validation. Hier zie je dat je niet 
-op DTO niveau hoeft te doen. Het kan ook op domeinklasse niveau.
+op DTO niveau hoeft te doen. Het kan ook op domeinklasse niveau. De foutmeldingen moeten nog wel netjes
+teruggecommuniceerd worden. Dat gebeurt nu nog niet in de code. In de eerder genoemde link wordt een voorbeeld gegeven 
+van hoe het kan.
 
 De keuze is aan jou. Ga je DTO's gebruiken of niet. Je kunt op deze manier wel per HTTP Request zeer gedetailleerde 
 regels opstellen die je vervolgens ook kunt controleren, maar daardoor krijg je wel veel code die op elkaar lijkt en
