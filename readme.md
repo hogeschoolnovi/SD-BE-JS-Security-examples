@@ -19,12 +19,7 @@ Een inleiding
  * Pas de databaseinstellingen aan in `src/main/resources/application.properties`
     * Tip: Maak een nieuwe database aan voor deze code.
  * Start de applicatie: `mvnw spring-boot:run`
- * Voor de volgende SQL-query uit:
-    ```postgresql
-    INSERT INTO role(name) VALUES('ROLE_USER');
-    INSERT INTO role(name) VALUES('ROLE_MODERATOR');
-    INSERT INTO role(name) VALUES('ROLE_ADMIN');
-    ```
+
 De applicatie is nu klaar voor gebruik.
 
 ## Korte uitleg 
