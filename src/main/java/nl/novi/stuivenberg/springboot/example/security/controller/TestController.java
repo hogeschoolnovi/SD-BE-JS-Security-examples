@@ -1,6 +1,7 @@
 package nl.novi.stuivenberg.springboot.example.security.controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
+import nl.novi.stuivenberg.springboot.example.security.service.TestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,26 +12,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/test")
 public class TestController {
 
+    private TestService testService;
+
+    @Autowired
+    public TestController(TestService testService) {
+        this.testService = testService;
+    }
+
     @GetMapping("/all")
     public String allAccess() {
-        return "Public Content.";
+        return testService.generatePublicContent();
     }
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public String userAccess() {
-        return "User Content.";
+        return testService.generateUserContent();
     }
 
     @GetMapping("/mod")
-    @PreAuthorize("hasRole('MODERATOR')")
     public String moderatorAccess() {
-        return "Moderator Board.";
+        return testService.generateModContent();
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
     public String adminAccess() {
-        return "Admin Board.";
+        return testService.generateAdminContent();
     }
 }
