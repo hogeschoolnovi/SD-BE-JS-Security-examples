@@ -70,9 +70,5 @@ public class DatabaseFiller implements CommandLineRunner {
         superuser.setRole(rollen);
         authorizationService.registerUser(superuser);
 
-
-
-
-
     }
 }
