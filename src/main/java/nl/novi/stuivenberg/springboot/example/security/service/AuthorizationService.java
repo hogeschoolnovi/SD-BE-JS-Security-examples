@@ -28,7 +28,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@Validated
 public class AuthorizationService {
 
     private static final String ROLE_NOT_FOUND_ERROR = "Error: Role is not found.";
@@ -138,7 +137,7 @@ public class AuthorizationService {
      * @param loginRequest De payload met username en password.
      * @return een HTTP-response met daarin de JWT-token.
      */
-    public ResponseEntity<JwtResponse> authenticateUser(@Valid LoginRequest loginRequest) {
+    public ResponseEntity<JwtResponse> authenticateUser(LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
